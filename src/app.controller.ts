@@ -9,4 +9,9 @@ export class AppController {
   getHello(): string {
     return this.appService.getHello();
   }
+
+  @Get('deploy')
+  testDeploy(): string {
+    return 'deploy: OK';
+  }
 }

@@ -1,0 +1,30 @@
+name: Deploy on commit with "deploy" label
+
+on:
+  push:
+    tags:
+      - 'v*'
+    branches:
+      - main
+    labels: [deploy]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH into VPS and deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd htdocs/www.api.thanhdc.dev
+            pm2 delete app || true
+            git checkout $GITHUB_SHA
+            git pull
+            yarn install
+            yarn run migration:run
+            yarn run build
+            pm2 start yarn --name app -- start:prod
+            pm2 save
