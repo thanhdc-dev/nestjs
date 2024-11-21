@@ -16,8 +16,9 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: 22
           script: |
+            ls -l
             pwd
             echo $PATH
-            whoiam
+            whoami
             printenv
             dploy deploy main
