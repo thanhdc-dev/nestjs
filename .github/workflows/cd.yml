@@ -15,5 +15,4 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           port: 22
-      - name: Run scripts
-        run: dploy deploy main
+          script: dploy deploy main
