@@ -15,4 +15,9 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           port: 22
-          script: dploy deploy main
+          script: |
+            pwd
+            echo $PATH
+            whoiam
+            printenv
+            dploy deploy main
