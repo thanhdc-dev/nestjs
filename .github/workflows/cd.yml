@@ -1,30 +1,18 @@
-name: Deploy on commit with "deploy" label
-
+name: Deployment
 on:
   push:
-    tags:
-      - 'v*'
-    branches:
-      - main
-    labels: [deploy]
-
+    branches: [main]
+    paths:
+      - 'cicd'
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: SSH into VPS and deploy
+      - name: Deploy using ssh
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            cd htdocs/www.api.thanhdc.dev
-            pm2 delete app || true
-            git checkout $GITHUB_SHA
-            git pull
-            yarn install
-            yarn run migration:run
-            yarn run build
-            pm2 start yarn --name app -- start:prod
-            pm2 save
+          password: ${{ secrets.PASSWORD }}
+          port: 22
+          script: dploy deploy main
