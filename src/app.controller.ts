@@ -11,12 +11,7 @@ export class AppController {
   }
 
   @Get('deploy')
-  testDeploy(): string {
-    return 'deploy: OK';
-  }
-
-  @Get('deploy')
-  testCD(): string {
-    return 'CD: OK';
+  deploy(): string {
+    return 'OK';
   }
 }
